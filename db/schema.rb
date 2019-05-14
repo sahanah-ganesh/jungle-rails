@@ -11,6 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+#rake db:setup calls rake db:schema:load, uses this schema to create structure of db
+
 ActiveRecord::Schema.define(version: 20160625062916) do
 
   # These are extensions that must be enabled in order to support this database
