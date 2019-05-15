@@ -1,3 +1,5 @@
+#ProductsController module inherited from ApplicationController
+#Admin is a related class to ProductsController (namespacing)
 class Admin::ProductsController < ApplicationController
 
   def index
