@@ -2,7 +2,7 @@
 #Admin is a related class to ProductsController (namespacing)
 class Admin::ProductsController < ApplicationController
 
-  # before_filter :authorize
+  http_basic_authenticate_with name: ENV['ADMIN_USER'].to_s, password: ENV['ADMIN_PASS'].to_s
 
   def index
     @products = Product.order(id: :desc).all
