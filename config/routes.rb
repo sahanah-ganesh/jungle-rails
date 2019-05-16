@@ -20,6 +20,14 @@ Rails.application.routes.draw do
     resources :categories, except: [:edit, :update, :destroy]
   end
 
+  get '/login' => 'sessions#new'
+  post '/login' => 'sessions#create'
+  get '/logout' => 'sessions#destroy'
+
+  get '/signup' => 'users#new'
+  post '/users' => 'users#create'
+  # equal to --> resources :users, only: [:create]
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -76,7 +84,6 @@ Rails.application.routes.draw do
   #   end
 end
 
-# bin/rake routes
 #             Prefix Verb   URI Pattern                     Controller#Action
 #               root GET    /                               products#index
 #           products GET    /products(.:format)             products#index
@@ -95,3 +102,9 @@ end
 #   admin_categories GET    /admin/categories(.:format)     admin/categories#index
 #                    POST   /admin/categories(.:format)     admin/categories#create
 # new_admin_category GET    /admin/categories/new(.:format) admin/categories#new
+#     admin_category GET    /admin/categories/:id(.:format) admin/categories#show
+#              login GET    /login(.:format)                sessions#new
+#                    POST   /login(.:format)                sessions#create
+#             logout GET    /logout(.:format)               sessions#destroy
+#             signup GET    /signup(.:format)               users#new
+#              users POST   /users(.:format)                users#create
