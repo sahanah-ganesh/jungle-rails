@@ -1,0 +1,17 @@
+<h1>Thank you <%= @order.email %> for your order #<%= @order.id %></h1>
+<h3>Here is your order receipt:</h3>
+<hr>
+<% @total = 0 %>
+<% @order.line_items.each do |item| %>
+  Product: <%= item.product.name %>
+  Description: <%= item.product.description %>
+  Unit Price: <%= humanized_money_with_symbol item.item_price %>
+  Quantity: <%= item.quantity %>
+  Subtotal: <%= humanized_money_with_symbol item.total_price * item.quantity %>
+  <% @total += item.item_price * item.quantity %>
+  <hr>
+  <h3>Total: <%= humanized_money_with_symbol @total %></h3>
+<% end %>
+<p>Have a great day!</p>
+
+

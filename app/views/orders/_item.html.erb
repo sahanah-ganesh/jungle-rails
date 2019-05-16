@@ -10,13 +10,13 @@
     <p><%= item.product.description %></p>
   </td>
   <td>
-    <%= item.item_price %>
+    <%= humanized_money_with_symbol item.item_price %>
   </td>
   <td>
     <%= item.quantity %>
   </td>
   <td>
-    <%= item.item_price * item.quantity %>
+    <%= humanized_money_with_symbol item.item_price * item.quantity %>
   </td>
 </tr>
   <% @total += item.item_price * item.quantity %>
@@ -28,7 +28,7 @@
       TOTAL:
     </th>
     <th>
-      <%= @total %>
+      <%= humanized_money_with_symbol @total %>
     </th>
   </tr>
 </tfoot>
