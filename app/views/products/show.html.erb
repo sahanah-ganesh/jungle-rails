@@ -27,7 +27,7 @@
     </div>
 
     <hr>
-
+      <% if current_user %>
       <div class="row">
         <%= form_for [@product, @review], url: `/products/#{@product.id}/reviews` do |f| %>
           <h2>RATINGS</h2>
@@ -36,19 +36,29 @@
           <%= f.submit "Create" %>
         <% end %>
       </div>
+      <% end %>
 
     <hr>
 
-      <div class="col-sm-8">
-        <% @product.reviews.each do |review| %>
+      <% if @sort.size > 0 %>
+      <div class="row">
+        <% @sort.each do |review| %>
           <dl class="dl-horizontal">
             <dt>Rating</dt>
             <dd><%= review.rating %></dd>
             <dt>Review</dt>
             <dd><%= review.description %></dd>
           </dl>
+          <% if current_user == User.find(review.user_id) %>
+            <%= link_to 'Delete', product_review_path(review.product_id, review.id), method: :delete, class: 'btn btn-danger btn-xs' %>
+          <% end %>
         <% end %>
       </div>
+      <% elsif @sort.size == 0 && !current_user %>
+        <h2>NOTHING TO DISPLAY</h2>
+      <% else %>
+        <h2>PLEASE LEAVE A REVIEW</h2>
+      <% end %>
 
   </article>
 
