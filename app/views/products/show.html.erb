@@ -1,17 +1,12 @@
 <section class="products-show">
-
   <header class="page-header">
     <h1><%= link_to @product.category.name, @product.category %> &raquo; <%= @product.name %></h1>
   </header>
-
   <article class="product-detail">
-
     <div class="row">
-
       <div class="col-sm-4">
-        <%= image_tag @product.image.url, class: 'main-img' %>
+        <%= image_tag @product.image.url, class: "main-img" %>
       </div>
-
       <div class="col-sm-8">
         <dl class="dl-horizontal">
           <dt>Name</dt>
@@ -19,48 +14,59 @@
           <dt>Description</dt>
           <dd><%= @product.description %></dd>
           <dt>Quantity</dt>
+          <% if @product.quantity == 0 %>
+            <dd><b>OUT OF STOCK</b></dd>
+          <% else %>
           <dd><%= @product.quantity %></dd>
+          <% end %>
           <dt>Price</dt>
           <dd><%= humanized_money_with_symbol @product.price %></dd>
+          <dt>Average Rating</dt>
+          <% if !@average %>
+          <dd><i>No ratings (yet!)</i></dd>
+          <% else %>
+          <dd><%= @average %> / 5</dd>
+          <% end %>
         </dl>
       </div>
     </div>
-
     <hr>
-      <% if current_user %>
-      <div class="row">
-        <%= form_for [@product, @review], url: `/products/#{@product.id}/reviews` do |f| %>
-          <h2>RATINGS</h2>
-          <%= f.text_area :description %>
-          <%= f.select :rating, [1, 2, 3, 4, 5]%>
-          <%= f.submit "Create" %>
-        <% end %>
-      </div>
-      <% end %>
-
-    <hr>
-
+      <div class="container">
       <% if @sort.size > 0 %>
       <div class="row">
         <% @sort.each do |review| %>
-          <dl class="dl-horizontal">
+            <dt>Name</dt>
+            <dd><%= review.user.name %>
             <dt>Rating</dt>
             <dd><%= review.rating %></dd>
             <dt>Review</dt>
             <dd><%= review.description %></dd>
-          </dl>
+            <br>
           <% if current_user == User.find(review.user_id) %>
-            <%= link_to 'Delete', product_review_path(review.product_id, review.id), method: :delete, class: 'btn btn-danger btn-xs' %>
+            <%= link_to "Delete", product_review_path(review.product_id, review.id), method: :delete, class: "btn btn-danger btn-xs" %>
           <% end %>
+          <hr>
         <% end %>
       </div>
-      <% elsif @sort.size == 0 && !current_user %>
-        <h2>NOTHING TO DISPLAY</h2>
-      <% else %>
-        <h2>PLEASE LEAVE A REVIEW</h2>
+      <% else @sort.size == 0 && !current_user %>
+        <h2>NO REVIEWS YET</h2>
+        <hr>
       <% end %>
-
+    </div>
+    <div class="container">
+      <% if current_user %>
+        <%= form_for [@product, @review], url: `/products/#{@product.id}/reviews` do |f| %>
+          <h4>LEAVE A RATING</h4>
+          <%= f.select :rating, [5, 4, 3, 2, 1] %>
+          <br>
+          <%= f.text_area :description %>
+          <br>
+          <%= f.submit "Create", class: "btn btn-primary" %>
+          <br>
+          <br>
+        <% end %>
+      <% end %>
+    </div>
   </article>
-
 </section>
 
